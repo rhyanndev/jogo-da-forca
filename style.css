@@ -1,0 +1,113 @@
+.body {
+    background-color: red;
+}
+
+.hangman {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.beam {
+    width: 200px;
+    height: 20px;
+    background-color: #654321;
+}
+
+.gallows {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gallows-bottom {
+    width: 20px;
+    height: 150px;
+    background-color: #654321;
+}
+
+.gallows-top {
+    width: 100px;
+    height: 20px;
+    background-color: #654321;
+}
+
+.gallows-rope {
+    width: 5px;
+    height: 100px;
+    background-color: #654321;
+}
+
+.body-box {
+    background-color: red;
+    width: 250px;
+    height: 250px;
+    
+}
+
+.head{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #000;
+    margin-top: 5px;
+    align-items: center;
+}
+
+.body-shape{
+    width: 50px;
+    height: 100px;
+    border-radius: 20px;
+    background-color: #000;
+    position: relative;
+    
+}
+
+.left-arm{
+    width: 15px;
+    height: 65px;
+    border-radius: 20px;
+    background-color: #000;
+    position: relative;
+    top: -80px;
+    right: 40px;
+    transform: rotate(35deg);
+
+}
+
+.right-arm{
+        width: 15px;
+        height: 65px;
+        border-radius: 20px;
+        background-color: #000;
+        position: relative;
+        top: -145px;
+        left: 40px;
+        transform: rotate(150deg);
+}
+
+.left-leg{
+    width: 15px;
+    height: 75px;
+    border-radius: 20px;
+    background-color: #000;
+    position: relative;
+    top: -138px;
+    right: 20px;
+}
+
+.right-leg{
+    width: 15px;
+    height: 75px;
+    border-radius: 20px;
+    background-color: #000;
+    position: relative;
+    top: -213px;
+    left: 20px;
+}
+
+
+.hide{
+    display: none;
+}
