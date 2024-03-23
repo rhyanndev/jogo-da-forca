@@ -42,8 +42,6 @@ body {
     align-items: center;
     margin-top: 0px;
     background-color: blue;
-    /* width: 250px;
-    height: 350px; */
 }
 .beam {
     width: 200px;
@@ -76,81 +74,71 @@ body {
 }
 
 .body-box {
-    background-color: red;
+    position: relative;
+    background-color: rgb(16, 214, 26);
     width: 250px;
     height: 250px;
     
 }
 
+.head, .body-shape, .left-arm, .right-arm, .left-leg, .right-leg {
+    position: absolute;
+    background-color: black;
+  }
+
 .head{
+    top: 0;
+    left: 100px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #000;
-    /* margin-top: 5px;
-    align-items: center; */
+    margin: auto;
 }
 
 .body-shape{
+    top: 50px;
+    left: 100px;
     width: 50px;
     height: 100px;
     border-radius: 20px;
-    background-color: #000;
-    /* position: relative; */
-    
+   
 }
 
-.left-arm{
+.left-arm, .right-arm {
+    top: 50px; 
     width: 15px;
-    height: 65px;
+    height: 75px;
     border-radius: 20px;
-    background-color: #000;
-    /* position: relative;
-    top: -80px;
-    right: 40px;
-    transform: rotate(35deg); */
-    display: inline-block;
+  }
 
+.left-arm{
+    left: 40px;
+    transform-origin: bottom right;
+    transform: rotate(45deg);
 }
 
 .right-arm{
-        width: 15px;
-        height: 65px;
-        border-radius: 20px;
-        background-color: #000;
-        /* position: relative;
-        top: -145px;
-        left: 40px;
-        transform: rotate(150deg); */
-        display: inline-block;
+    right: 40px;
+    transform-origin: bottom left;
+    transform: rotate(-45deg);
+
 }
 
-.left-leg{
-    width: 15px;
-    height: 75px;
+.left-leg, .right-leg {
+    top: 140px;
+    width: 20px;
+    height: 95px;
     border-radius: 20px;
-    background-color: #000;
-    /* position: relative;
-    top: -138px;
-    right: 20px; */
-    display: inline-block;
+  }
+
+.left-leg{
+    left: 100px;
+
 }
 
 .right-leg{
-    width: 15px;
-    height: 75px;
-    border-radius: 20px;
-    background-color: #000;
-    /* position: relative;
-    top: -213px;
-    left: 20px;*/
-    display: inline-block;
+    right: 100px;
 } 
-
-
-.hide{
-    display: none;
-}
 
 
 .container-informacoes{
@@ -173,4 +161,28 @@ body {
 
 .container-informacoes .question {
     font-size: 26px;
+}
+
+.container-keyboard{
+    background-color: gray;
+    border: 1px solid black;
+    width: 100%;
+    height: auto;
+    text-align: center;   
+}
+
+.container-keyboard .key {
+    justify-content: space-between;
+    background-color: rgb(124, 32, 59);
+    color: white;
+    /* padding: 10px 20px; /*Adiciona padding horizontal para espaçamento entre a borda e os botões*/
+    padding: 0;
+    width: 70px;
+    height: 40px;
+
+}
+
+
+.hide{
+    display: none;
 }

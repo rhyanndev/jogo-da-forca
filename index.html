@@ -6,6 +6,7 @@
     <title>Jogo Da Forca</title>
 
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="app.js" async></script>
 </head>
 <body>
 
@@ -14,9 +15,14 @@
 
     <div class="container">
 
+        <div class="controls-container">
+            <button class="start-quiz button">Começar a Jogar</button>
+            <button class="next-question button hide">Próxima pergunta</button>
+
+        </div>
        
         
-        <div class="container-side-left">
+        <div class="container-side-left hide">
             
             
             <div class="hangman">
@@ -26,7 +32,7 @@
                     <div class="gallows-top"></div>
                     <div class="gallows-rope"></div>
                 </div>
-                <div class="body-box">
+                <div class="body-box hide">
                     <div class="head"></div>
                     <div class="body-shape"></div>
                     <div class="left-arm"></div>
@@ -39,20 +45,27 @@
             
         </div>
 
-            <div class="container-side-right">
+            <div class="container-side-right hide">
 
                 
                             <div class="container-informacoes">
 
-                                <span class="question">Dica: Qual o presidente do Brasil em 2024?</span>
+                               <p>
+                                Dica: <span class="question">Quem é o presidente dos EUA</span>
+                               </p> 
                                 <span class="answer">_ _ _ _</span>
+                            
+                                <div class="letras-usadas">
+                                    A B C
+                                </div>
 
                             </div>
                 
                 <div class="container-keyboard">
                         <div class="column">
-                        <button class="key">A</button>
-                        <button class="key">B</button>
+                        
+                    <button class="key">A</button>
+                    <button class="key">B</button>
                     <button class="key">C</button>
                     <button class="key">D</button>
                     <button class="key">E</button>
@@ -94,6 +107,6 @@
             
             
         </div>
-        
+       
 </body>
 </html>
