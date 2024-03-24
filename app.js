@@ -3,6 +3,7 @@ const $startGameButton = document.querySelector(".start-quiz");
 const $containerLeft = document.querySelector(".container-side-left");
 const $containerRight = document.querySelector(".container-side-right");
 const $keyBoardContent = document.querySelector(".container-keyboard"); 
+const $keyBoardLetters = document.querySelectorAll('.key');
 
 
 $startGameButton.addEventListener("click", startGame);
@@ -30,28 +31,30 @@ verificaLetra();
 }
 
 function verificaLetra(){
-  // Adiciona um ouvinte de evento de clique para o conteúdo do teclado
-$keyBoardContent.addEventListener('click', function(event){
-  // Verifica se o elemento clicado é um botão
-  if(event.target.classList.contains('key')){
-    const textoBotao = event.target.textContent; // Obtém o texto do botão clicado
 
-    
-    // Obtém a pergunta atual
-    const currentQuestion = questions[currentQuestionIndex];
+  $keyBoardLetters.forEach(button => {
 
-    // Verifica se a letra digitada está contida no texto de qualquer resposta correta da pergunta atual
-    const respostaCorreta = currentQuestion.answers.some(answer => {
-      return answer.text.includes(textoBotao) && answer.correct;
-    });
+    button.addEventListener('click', () => {
+      const letter = button.textContent;
+      const question = questions[currentQuestionIndex];
 
-    // Se uma resposta correta contendo a letra digitada foi encontrada, exibe um alerta
-    if (respostaCorreta) {
-      alert("Essa letra está contida em uma resposta correta!");
+      const isCorrect = question.answers.some(answers => {
+        return answers.correct && answers.text.toLowerCase().includes(letter.toLowerCase());
+      });
+
+      if(isCorrect){
+        alert('essa letra contém na palavra!');
+      }
+      else{
+        alert('essa letra não contém na palavra!')
+      }
       
-    }
-  }
+  });
+
+
 });
+
+
 }
 
 
@@ -137,6 +140,15 @@ const questions = [
         { text: "Bolsonaro", correct: false },
         { text: "Dilma", correct: false },
         { text: "Michel Temer", correct: false }
+      ]
+    },
+    {
+      question: "Qual é o nome completo do personagem principal em Breaking Bad?",
+      answers: [
+        { text: "Walter White", correct: true },
+        { text: "Jesse Pinkman", correct: false },
+        { text: "Saul Goodman", correct: false },
+        { text: "Gustavo Fring", correct: false }
       ]
     }
   ];
