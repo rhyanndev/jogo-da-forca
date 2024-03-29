@@ -4,11 +4,12 @@ const $containerLeft = document.querySelector(".container-side-left");
 const $containerRight = document.querySelector(".container-side-right");
 const $keyBoardContent = document.querySelector(".container-keyboard"); 
 const $keyBoardLetters = document.querySelectorAll('.key');
+const $answerForQuestion = document.querySelector('.answer');
 
 
 $startGameButton.addEventListener("click", startGame);
 
-let currentQuestionIndex = 0;
+let currentQuestionIndex = 1;
 
 
 function startGame (){
@@ -25,6 +26,32 @@ function displayQuestion() {
 
 // Exibe o texto da pergunta atual
 $questionText.textContent = questions[currentQuestionIndex].question;
+
+
+function contarLetras(objeto){
+
+  let totalLetras = 0;
+
+    objeto.answers.forEach(answers => {
+      if (answers.correct){
+        totalLetras += answers.text.length;
+      }
+    });
+
+  return totalLetras;
+
+}
+const totalLetras = contarLetras(questions[currentQuestionIndex]);
+console.log("Total de letras nessa resposta:", totalLetras);
+
+let underscoreString = '';
+for (let index = 0; index < totalLetras; index++) {
+  underscoreString += '_ ';
+}
+
+// Exibe os underscores na div
+$answerForQuestion.innerHTML = underscoreString;
+
 
 verificaLetra();
 
