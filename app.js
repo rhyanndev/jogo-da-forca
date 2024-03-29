@@ -9,7 +9,7 @@ const $answerForQuestion = document.querySelector('.answer');
 
 $startGameButton.addEventListener("click", startGame);
 
-let currentQuestionIndex = 1;
+let currentQuestionIndex = 0;
 
 
 function startGame (){
@@ -34,7 +34,7 @@ function contarLetras(objeto){
 
     objeto.answers.forEach(answers => {
       if (answers.correct){
-        totalLetras += answers.text.length;
+        totalLetras += answers.text.replace(/ /g, '').length; // Ignorar espaços na contagem
       }
     });
 
@@ -45,8 +45,19 @@ const totalLetras = contarLetras(questions[currentQuestionIndex]);
 console.log("Total de letras nessa resposta:", totalLetras);
 
 let underscoreString = '';
-for (let index = 0; index < totalLetras; index++) {
-  underscoreString += '_ ';
+
+const respostaCorreta = questions[currentQuestionIndex].answers.find(answer => answer.correct);
+
+for (let index = 0; index < respostaCorreta.text.length; index++) {
+  
+  if(respostaCorreta.text[index] === ' '){
+    underscoreString += 'ㅤ'; //Adiciona espaço
+  }
+  else
+  {
+    underscoreString += '_ '; //Adiciona underscore
+  }
+
 }
 
 // Exibe os underscores na div
