@@ -5,11 +5,12 @@ const $containerRight = document.querySelector(".container-side-right");
 const $keyBoardContent = document.querySelector(".container-keyboard"); 
 const $keyBoardLetters = document.querySelectorAll('.key');
 const $answerForQuestion = document.querySelector('.answer');
+let underscoreString = '';
 
 
 $startGameButton.addEventListener("click", startGame);
 
-let currentQuestionIndex = 0;
+let currentQuestionIndex = 1;
 
 
 function startGame (){
@@ -44,7 +45,7 @@ function contarLetras(objeto){
 const totalLetras = contarLetras(questions[currentQuestionIndex]);
 console.log("Total de letras nessa resposta:", totalLetras);
 
-let underscoreString = '';
+
 
 const respostaCorreta = questions[currentQuestionIndex].answers.find(answer => answer.correct);
 
@@ -82,6 +83,9 @@ function verificaLetra(){
 
       if(isCorrect){
         alert('essa letra contém na palavra!');
+
+        substituirUnderscorePorLetra(letter)
+
       }
       else{
         alert('essa letra não contém na palavra!')
@@ -93,6 +97,39 @@ function verificaLetra(){
 });
 
 
+}
+
+
+function substituirUnderscorePorLetra(letra) {
+  // Encontra a resposta correta da pergunta atual
+  const respostaCorreta = questions[currentQuestionIndex].answers.find(answer => answer.correct);
+
+  // Obtém a palavra correta e converte para minúsculas
+  const palavraCorreta = respostaCorreta.text.toLowerCase();
+
+  //Encontra todas as ocorrências da letra na palavra correta
+
+  let indices = [];
+
+  for(let i = 0; i < palavraCorreta.length; i++){
+    if(palavraCorreta[i] === letra.toLowerCase()){
+      indices.push(i);
+    }
+  }
+
+  //Substitui os underscores nas posições correspondentes pelas letras
+
+  for(let i = 0; i < indices.length; i++){
+    const posicaoLetra = indices[i];
+
+    underscoreString = underscoreString.substr(0, posicaoLetra * 2) + letra + underscoreString.substr(posicaoLetra * 2 + 1);
+
+  }
+
+  //Exibe a string atualizada com as letras na div
+
+  $answerForQuestion.textContent = underscoreString;
+ 
 }
 
 
