@@ -6,6 +6,7 @@ const $keyBoardContent = document.querySelector(".container-keyboard");
 const $keyBoardLetters = document.querySelectorAll('.key');
 const $answerForQuestion = document.querySelector('.answer');
 const $letterUsed = document.querySelector(".letras-usadas");
+const $bodyBox = document.querySelectorAll(".body-box"); 
 let underscoreString = '';
 
 
@@ -94,15 +95,27 @@ function verificaLetra(){
       }
       else{
         alert('essa letra não contém na palavra!')
+
+        // Percorre todos os elementos dentro de $bodyBox
+        $bodyBox.forEach(elemento => {
+          const elementoComClasseHide = elemento.querySelector(".hide");
+          // Se existe um elemento filho com a classe "hide"
+          if (elementoComClasseHide) {
+            // Remove a classe "hide" do elemento filho
+            elementoComClasseHide.classList.remove("hide");
+          }
+        });
       }   
+
+      button.style.backgroundColor = 'red';
+      button.disabled = true;
       
       if (!letrasUtilizadas.includes(letter)) {
-
-        
-
         letrasUtilizadas.push(letter);
+
         $letterUsed.innerHTML = letrasUtilizadas.join(', '); // Atualiza a lista de letras utilizadas
     }
+
   });
 });
 
@@ -140,7 +153,6 @@ function substituirUnderscorePorLetra(letra) {
   $answerForQuestion.textContent = underscoreString;
  
 }
-
 
 
 

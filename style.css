@@ -179,8 +179,10 @@ body {
     padding: 0;
     width: 70px;
     height: 40px;
+    cursor: pointer;
 
 }
+
 
 
 .hide{
