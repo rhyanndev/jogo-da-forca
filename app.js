@@ -5,12 +5,13 @@ const $containerRight = document.querySelector(".container-side-right");
 const $keyBoardContent = document.querySelector(".container-keyboard"); 
 const $keyBoardLetters = document.querySelectorAll('.key');
 const $answerForQuestion = document.querySelector('.answer');
+const $letterUsed = document.querySelector(".letras-usadas");
 let underscoreString = '';
 
 
 $startGameButton.addEventListener("click", startGame);
 
-let currentQuestionIndex = 1;
+let currentQuestionIndex = 0;
 
 
 function startGame (){
@@ -71,6 +72,8 @@ verificaLetra();
 
 function verificaLetra(){
 
+  let letrasUtilizadas = [];
+
   $keyBoardLetters.forEach(button => {
 
     button.addEventListener('click', () => {
@@ -81,6 +84,8 @@ function verificaLetra(){
         return answers.correct && answers.text.toLowerCase().includes(letter.toLowerCase());
       });
 
+      
+
       if(isCorrect){
         alert('essa letra contém na palavra!');
 
@@ -89,13 +94,17 @@ function verificaLetra(){
       }
       else{
         alert('essa letra não contém na palavra!')
-      }
+      }   
       
+      if (!letrasUtilizadas.includes(letter)) {
+
+        
+
+        letrasUtilizadas.push(letter);
+        $letterUsed.innerHTML = letrasUtilizadas.join(', '); // Atualiza a lista de letras utilizadas
+    }
   });
-
-
 });
-
 
 }
 
