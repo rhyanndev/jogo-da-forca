@@ -1,5 +1,10 @@
 const $questionText = document.querySelector(".question");
 const $startGameButton = document.querySelector(".start-quiz");
+
+const $userName = document.getElementById("user");
+const $userField = document.querySelector(".insert-name-user");
+const $playersName = document.querySelector(".players-name");
+
 const $containerLeft = document.querySelector(".container-side-left");
 const $containerRight = document.querySelector(".container-side-right");
 const $keyBoardContent = document.querySelector(".container-keyboard"); 
@@ -17,12 +22,25 @@ let currentQuestionIndex = 0;
 
 function startGame (){
 
-  $startGameButton.classList.add("hide");
-  $containerLeft.classList.remove("hide");
-  $containerRight.classList.remove("hide");
 
-  displayQuestion();
-    
+  if($userName.value.trim() === ""){
+    alert('Preencha seu nome!');
+}
+
+  else{
+
+    const playUser = $userName.value;
+
+  
+    $startGameButton.classList.add("hide");
+    $userField.classList.add("hide");
+    $containerLeft.classList.remove("hide");
+    $containerRight.classList.remove("hide");
+    $playersName.textContent = `Jogador: ${playUser.toUpperCase()}`
+  
+    displayQuestion();  
+}
+
 }
 
 function displayQuestion() {
@@ -105,6 +123,24 @@ function verificaLetra(){
             elementoComClasseHide.classList.remove("hide");
           }
         });
+
+
+        const todosRemovidos = Array.from($bodyBox).every(elemento => !elemento.querySelector(".hide"));
+
+        if (todosRemovidos) {
+          // Mostra uma mensagem para o usuário
+          const resposta = confirm("Você perdeu! Deseja recomeçar ou ir para o próximo jogo?");
+          if (resposta) {
+            // Recomeça o jogo
+            recomeçarGame ();
+          } else {
+            // Vai para o próximo jogo
+            //proximoJogo();
+            alert("vai para o próximo")
+          }
+        }
+
+
       }   
 
       button.style.backgroundColor = 'red';
@@ -149,9 +185,24 @@ function substituirUnderscorePorLetra(letra) {
   }
 
   //Exibe a string atualizada com as letras na div
-
   $answerForQuestion.textContent = underscoreString;
  
+}
+
+
+function recomeçarGame () {
+
+
+  //Verificado se o boneco não contém a classe hide para adicionar novamente
+  $bodyBox.forEach(elemento => {
+    const elementosFilhos = elemento.children;
+    for (let i = 0; i < elementosFilhos.length; i++) {
+        const filho = elementosFilhos[i];
+        if (!filho.classList.contains("hide")) {
+            filho.classList.add("hide");
+        }
+    }
+});
 }
 
 
