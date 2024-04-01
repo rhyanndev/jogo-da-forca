@@ -7,11 +7,11 @@ const $playersName = document.querySelector(".players-name");
 
 const $containerLeft = document.querySelector(".container-side-left");
 const $containerRight = document.querySelector(".container-side-right");
-const $keyBoardContent = document.querySelector(".container-keyboard"); 
+const $keyBoardContent = document.querySelector(".container-keyboard");
 const $keyBoardLetters = document.querySelectorAll('.key');
 const $answerForQuestion = document.querySelector('.answer');
 const $letterUsed = document.querySelector(".letras-usadas");
-const $bodyBox = document.querySelectorAll(".body-box"); 
+const $bodyBox = document.querySelectorAll(".body-box");
 let underscoreString = '';
 
 
@@ -30,15 +30,13 @@ function startGame (){
   else{
 
     const playUser = $userName.value;
-
-  
     $startGameButton.classList.add("hide");
     $userField.classList.add("hide");
     $containerLeft.classList.remove("hide");
     $containerRight.classList.remove("hide");
     $playersName.textContent = `Jogador: ${playUser.toUpperCase()}`
-  
-    displayQuestion();  
+
+    displayQuestion();
 }
 
 }
@@ -69,8 +67,10 @@ console.log("Total de letras nessa resposta:", totalLetras);
 
 const respostaCorreta = questions[currentQuestionIndex].answers.find(answer => answer.correct);
 
+underscoreString = '';
+
 for (let index = 0; index < respostaCorreta.text.length; index++) {
-  
+
   if(respostaCorreta.text[index] === ' '){
     underscoreString += 'ㅤ'; //Adiciona espaço
   }
@@ -103,7 +103,7 @@ function verificaLetra(){
         return answers.correct && answers.text.toLowerCase().includes(letter.toLowerCase());
       });
 
-      
+
 
       if(isCorrect){
         alert('essa letra contém na palavra!');
@@ -132,20 +132,22 @@ function verificaLetra(){
           const resposta = confirm("Você perdeu! Deseja recomeçar ou ir para o próximo jogo?");
           if (resposta) {
             // Recomeça o jogo
-            recomeçarGame ();
+            //recomecarGame();
           } else {
             // Vai para o próximo jogo
-            //proximoJogo();
             alert("vai para o próximo")
+            proximoJogo();
+            currentQuestionIndex++;
+            //displayQuestion();
           }
         }
 
 
-      }   
+      }
 
       button.style.backgroundColor = 'red';
       button.disabled = true;
-      
+
       if (!letrasUtilizadas.includes(letter)) {
         letrasUtilizadas.push(letter);
 
@@ -186,12 +188,11 @@ function substituirUnderscorePorLetra(letra) {
 
   //Exibe a string atualizada com as letras na div
   $answerForQuestion.textContent = underscoreString;
- 
+
 }
 
 
-function recomeçarGame () {
-
+function proximoJogo() {
 
   //Verificado se o boneco não contém a classe hide para adicionar novamente
   $bodyBox.forEach(elemento => {
@@ -203,6 +204,15 @@ function recomeçarGame () {
         }
     }
 });
+
+
+currentQuestionIndex++;
+displayQuestion();
+
+
+
+
+
 }
 
 
