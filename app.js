@@ -13,6 +13,7 @@ const $answerForQuestion = document.querySelector('.answer');
 const $letterUsed = document.querySelector(".letras-usadas");
 const $bodyBox = document.querySelectorAll(".body-box");
 let underscoreString = '';
+let letrasUtilizadas = [];
 
 
 $startGameButton.addEventListener("click", startGame);
@@ -91,7 +92,6 @@ verificaLetra();
 
 function verificaLetra(){
 
-  let letrasUtilizadas = [];
 
   $keyBoardLetters.forEach(button => {
 
@@ -136,8 +136,9 @@ function verificaLetra(){
           } else {
             // Vai para o próximo jogo
             alert("vai para o próximo")
+            
             proximoJogo();
-            currentQuestionIndex++;
+            
             //displayQuestion();
           }
         }
@@ -205,8 +206,11 @@ function proximoJogo() {
     }
 });
 
-
+$letterUsed.innerHTML = " ";
+letrasUtilizadas = [];
+underscoreString = '';
 currentQuestionIndex++;
+
 displayQuestion();
 
 
