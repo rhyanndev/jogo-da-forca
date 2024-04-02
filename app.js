@@ -48,6 +48,14 @@ function displayQuestion() {
 $questionText.textContent = questions[currentQuestionIndex].question;
 
 
+// Restaura a cor original e habilita todos os botões no início de cada rodada
+$keyBoardLetters.forEach(button => {
+  button.disabled = false;
+  button.style.backgroundColor = ''; // Limpa a cor de fundo
+});
+
+
+
 function contarLetras(objeto){
 
   let totalLetras = 0;
@@ -91,6 +99,8 @@ verificaLetra();
 }
 
 function verificaLetra(){
+
+  letrasUtilizadas = []; // Limpa a lista de letras utilizadas no início de cada rodada
 
 
   $keyBoardLetters.forEach(button => {
@@ -146,14 +156,17 @@ function verificaLetra(){
 
       }
 
-      button.style.backgroundColor = 'red';
-      button.disabled = true;
 
       if (!letrasUtilizadas.includes(letter)) {
         letrasUtilizadas.push(letter);
 
         $letterUsed.innerHTML = letrasUtilizadas.join(', '); // Atualiza a lista de letras utilizadas
+
+        button.style.backgroundColor = 'red';
+        button.disabled = true;
     }
+
+  
 
   });
 });
@@ -206,6 +219,7 @@ function proximoJogo() {
     }
 });
 
+
 $letterUsed.innerHTML = " ";
 letrasUtilizadas = [];
 underscoreString = '';
@@ -214,10 +228,9 @@ currentQuestionIndex++;
 displayQuestion();
 
 
-
-
-
 }
+
+
 
 
 
