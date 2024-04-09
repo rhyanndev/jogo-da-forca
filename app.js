@@ -1,6 +1,8 @@
 const $questionText = document.querySelector(".question");
 const $startGameButton = document.querySelector(".start-quiz");
 
+const $controlsContainer = document.querySelector(".controls-container");
+
 const $userName = document.getElementById("user");
 const $userField = document.querySelector(".insert-name-user");
 const $playersName = document.querySelector(".players-name");
@@ -32,6 +34,7 @@ function startGame (){
 
     const playUser = $userName.value;
     $startGameButton.classList.add("hide");
+    $controlsContainer.classList.add("hide");
     $userField.classList.add("hide");
     $containerLeft.classList.remove("hide");
     $containerRight.classList.remove("hide");
@@ -43,6 +46,8 @@ function startGame (){
 }
 
 function displayQuestion() {
+
+letrasUtilizadas = []; // Limpa a lista de letras utilizadas no início de cada rodada
 
 // Exibe o texto da pergunta atual
 $questionText.textContent = questions[currentQuestionIndex].question;
@@ -100,9 +105,6 @@ verificaLetra();
 
 function verificaLetra(){
 
-  letrasUtilizadas = []; // Limpa a lista de letras utilizadas no início de cada rodada
-
-
   $keyBoardLetters.forEach(button => {
 
     button.addEventListener('click', () => {
@@ -114,26 +116,16 @@ function verificaLetra(){
       });
 
 
-
       if(isCorrect){
-        alert('essa letra contém na palavra!');
+        console.log('essa letra contém na palavra!');
 
         substituirUnderscorePorLetra(letter)
 
       }
       else{
-        alert('essa letra não contém na palavra!')
+        console.log('essa letra não contém na palavra!')
 
-        // Percorre todos os elementos dentro de $bodyBox
-        $bodyBox.forEach(elemento => {
-          const elementoComClasseHide = elemento.querySelector(".hide");
-          // Se existe um elemento filho com a classe "hide"
-          if (elementoComClasseHide) {
-            // Remove a classe "hide" do elemento filho
-            elementoComClasseHide.classList.remove("hide");
-          }
-        });
-
+        hangMan();
 
         const todosRemovidos = Array.from($bodyBox).every(elemento => !elemento.querySelector(".hide"));
 
@@ -142,25 +134,22 @@ function verificaLetra(){
           const resposta = confirm("Você perdeu! Deseja recomeçar ou ir para o próximo jogo?");
           if (resposta) {
             // Recomeça o jogo
-            //recomecarGame();
+            recomecarGame();
           } else {
             // Vai para o próximo jogo
             alert("vai para o próximo")
-            
             proximoJogo();
             
             //displayQuestion();
           }
         }
-
-
       }
 
 
       if (!letrasUtilizadas.includes(letter)) {
         letrasUtilizadas.push(letter);
 
-        $letterUsed.innerHTML = letrasUtilizadas.join(', '); // Atualiza a lista de letras utilizadas
+        $letterUsed.innerHTML = letrasUtilizadas.join(); // Atualiza a lista de letras utilizadas
 
         button.style.backgroundColor = 'red';
         button.disabled = true;
@@ -173,6 +162,18 @@ function verificaLetra(){
 
 }
 
+//Função que retira propriedade .hide de partes do boneco
+function hangMan(){
+    // Percorre todos os elementos dentro de $bodyBox
+    $bodyBox.forEach(elemento => {
+      const elementoComClasseHide = elemento.querySelector(".hide");
+      // Se existe um elemento filho com a classe "hide"
+      if (elementoComClasseHide) {
+        // Remove a classe "hide" do elemento filho
+        elementoComClasseHide.classList.remove("hide");
+      }
+    });
+}
 
 function substituirUnderscorePorLetra(letra) {
   // Encontra a resposta correta da pergunta atual
@@ -206,6 +207,12 @@ function substituirUnderscorePorLetra(letra) {
 }
 
 
+function recomecarGame(){
+  window.location.href = "index.html";
+}
+
+
+
 function proximoJogo() {
 
   //Verificado se o boneco não contém a classe hide para adicionar novamente
@@ -220,8 +227,7 @@ function proximoJogo() {
 });
 
 
-$letterUsed.innerHTML = " ";
-letrasUtilizadas = [];
+$letterUsed.innerHTML = "";
 underscoreString = '';
 currentQuestionIndex++;
 
@@ -323,6 +329,24 @@ const questions = [
         { text: "Jesse Pinkman", correct: false },
         { text: "Saul Goodman", correct: false },
         { text: "Gustavo Fring", correct: false }
+      ]
+    },
+    {
+      "question": "Quem é o criador da série Succession?",
+      "answers": [
+        { "text": "Jesse Armstrong", "correct": true },
+        { "text": "David Benioff", "correct": false },
+        { "text": "Dan Weiss", "correct": false },
+        { "text": "Aaron Sorkin", "correct": false }
+      ]
+    },
+    {
+      "question": "Qual é o nome do mundo alternativo retratado em Stranger Things?",
+      "answers": [
+        { "text": "The Upside Down", "correct": true },
+        { "text": "The Other Side", "correct": false },
+        { "text": "The Dark Place", "correct": false },
+        { "text": "The Shadow Realm", "correct": false }
       ]
     }
   ];

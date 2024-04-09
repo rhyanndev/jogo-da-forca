@@ -184,6 +184,64 @@ body {
 }
 
 
+.players-name{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+
+}
+
+.controls-container{
+    border: 1px solid black;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 140px;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    color: rgb(7, 7, 5);
+    border: 5px solid rgb(28, 76, 233);
+    border-radius: 6px;
+    position: relative;
+}
+
+.insert-name-user {
+    margin-top: 1rem;
+}
+
+.insert-name-user label {
+    display: block;
+    margin-bottom: 5px; /* Adicione um espaçamento entre o rótulo e o campo de entrada */
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.insert-name-user input {
+    display: block;
+    width: 50vh;
+    height: 5vh;
+    font-size: 1.5rem;
+    color: rgb(77, 8, 238);
+}
+
+.start-quiz{
+    background-color: white;
+    color: green;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid green;
+    border-radius: 6px;
+    height: 48px;
+    padding: 0 32px;
+    margin: 5px;
+    transition: 0.2s;
+}
 
 .hide{
     display: none;
