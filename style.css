@@ -1,12 +1,12 @@
 body {
-    background-color: rgb(160, 22, 52);
+    background-color: rgb(255, 255, 255);
     padding: 0;
     margin: 0;
 }
 
 
 .container-top-title {
-        background-color: violet;
+        background-color: rgb(255, 255, 255);
         text-align: center;
         height: 50px;
         margin: 0;
@@ -21,27 +21,26 @@ body {
 
 .container-side-left, .container-side-right {
     flex-basis: calc(50%); 
-    border: 1px solid black;
     padding: 0px;
     margin: 0px;
 }
 
 .container-side-left{
-    background-color: green;
+   
     height: 100%;
-    border: 1px solid black;
+    
 }
 
 .container-side-right {
-    background-color: red;
-    border: 1px solid black;
+  
+   
 } 
 .hangman {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 0px;
-    background-color: blue;
+    
 }
 .beam {
     width: 200px;
@@ -75,7 +74,6 @@ body {
 
 .body-box {
     position: relative;
-    background-color: rgb(16, 214, 26);
     width: 250px;
     height: 250px;
     
@@ -145,7 +143,6 @@ body {
     width: 100%;
     height: auto;
     background-color: white;
-    border: 1px solid black;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -154,9 +151,12 @@ body {
     font-size: 40px;
 }
 
+.answer{
+    margin-bottom: 10px;
+}
+
 .container-informacoes .question, .answer{
     display: block;
-    border: 1px solid black;
 }
 
 .container-informacoes .question {
@@ -164,8 +164,6 @@ body {
 }
 
 .container-keyboard{
-    background-color: gray;
-    border: 1px solid black;
     width: 100%;
     height: auto;
     text-align: center;   
@@ -173,13 +171,15 @@ body {
 
 .container-keyboard .key {
     justify-content: space-between;
-    background-color: rgb(124, 32, 59);
+    background-color: rgb(231, 148, 39);
     color: white;
     /* padding: 10px 20px; /*Adiciona padding horizontal para espaçamento entre a borda e os botões*/
     padding: 0;
     width: 70px;
     height: 40px;
     cursor: pointer;
+    text-decoration: none;
+    border-radius: 5%;
 
 }
 
@@ -195,7 +195,6 @@ body {
 }
 
 .controls-container{
-    border: 1px solid black;
     width: 800px;
     display: flex;
     flex-direction: column;

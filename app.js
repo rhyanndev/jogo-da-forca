@@ -16,13 +16,15 @@ const $keyBoardLetters = document.querySelectorAll('.key');
 const $answerForQuestion = document.querySelector('.answer');
 const $letterUsed = document.querySelector(".letras-usadas");
 const $bodyBox = document.querySelectorAll(".body-box");
+
+
 let underscoreString = '';
 let letrasUtilizadas = [];
 
 
 $startGameButton.addEventListener("click", startGame);
 
-let currentQuestionIndex = 1;
+let currentQuestionIndex = 0;
 
 
 function startGame (){
@@ -54,95 +56,90 @@ letrasUtilizadas = []; // Limpa a lista de letras utilizadas no início de cada 
 // Exibe o texto da pergunta atual
 $questionText.textContent = questions[currentQuestionIndex].question;
 
-
-
 let totalLetras = 0;
-
 totalLetras = questions[currentQuestionIndex].answer.replace(/ /g, '').length;
-
 console.log("Total de letras nesta resposta:", totalLetras);
 
 
 const respostaCorreta = questions[currentQuestionIndex].answer;
 
-underscoreString = '';
 
-for (let index = 0; index < respostaCorreta.length; index++) {
+//Pegar a letra de cada answer e colocar span com o _ e  mostrar na div answerForQuestion
 
-  if(respostaCorreta[index] === ' '){
-    underscoreString += 'ㅤ'; //Adiciona espaço
-  }
-  else
-  {
-    underscoreString += '_ '; //Adiciona underscore
-  }
+$answerForQuestion.textContent = "";
 
-}
+const respostaCorretaSemAcento = respostaCorreta.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-// Exibe os underscores na div
-$answerForQuestion.innerHTML = underscoreString;
+Array.from(respostaCorretaSemAcento).forEach((letter) =>
+{
+  const span = document.createElement("span");
 
+  span.textContent = "_";
+
+  span.setAttribute("answer", letter.toUpperCase());
+
+  $answerForQuestion.appendChild(span);
+
+  span.style.marginRight = '5px';
+
+});
 
 verificaLetra();
 
 }
 
-function verificaLetra(){
-
+function verificaLetra() {
   $keyBoardLetters.forEach(button => {
+    button.onclick = function() {
+      const letter = this.textContent; // 'this' refere-se ao botão clicado
 
-    button.addEventListener('click', () => {
-      const letter = button.textContent;
-      const answer = questions[currentQuestionIndex].answer;
-      
-      const isCorrect = answer.toLowerCase().includes(letter.toLowerCase());
-      
+      this.style.backgroundColor = 'red';
+      this.disabled = true;
 
+      const arr = document.querySelectorAll(`[answer="${letter}"]`);
 
-      if(isCorrect){
-        console.log('essa letra contém na palavra!');
-
-        substituirUnderscorePorLetra(letter)
-
+      if (!arr.length) {
+        wrongAnswer();
+        console.log('essa letra não contém na palavra!');
       }
-      else{
-        console.log('essa letra não contém na palavra!')
 
-        hangMan();
+      arr.forEach((e) => {
+        e.textContent = letter;
+      });
 
-        const todosRemovidos = Array.from($bodyBox).every(elemento => !elemento.querySelector(".hide"));
-       
+      const spans = document.querySelectorAll('.answer span');
+      const won = !Array.from(spans).find((span) => span.textContent === '_');
 
-        if (todosRemovidos) {
-          // Mostra uma mensagem para o usuário
-
-          const resposta = confirm("Você perdeu! Deseja recomeçar ou ir para o próximo jogo?");
-
-          if (resposta) {
-            // Recomeça o jogo
-            recomecarGame();
-          } else {
-            // Vai para o próximo jogo
-            alert("vai para o próximo")
-            proximoJogo();
-            
-            //displayQuestion();
-          }
-        }
+      if (won) {
+        setTimeout(() => {
+          alert('Ganhou!');
+          proximoJogo();
+        }, 100);
       }
 
       if (!letrasUtilizadas.includes(letter)) {
         letrasUtilizadas.push(letter);
-
         $letterUsed.innerHTML = letrasUtilizadas.join(); // Atualiza a lista de letras utilizadas
-
-        button.style.backgroundColor = 'blue';
-        button.disabled = true;
-    }  
-
+      }
+    };
   });
-});
+}
 
+
+function wrongAnswer() {
+
+  hangMan();
+
+  console.log('Chamada da função wrongAnswer()');
+
+ const todosRemovidos = Array.from($bodyBox).every(elemento => !elemento.querySelector(".hide"));
+
+  if (todosRemovidos) {
+    setTimeout(() => {
+      alert(`Perdeu :/ a respota era ${questions[currentQuestionIndex].answer}`);
+      proximoJogo();
+    }, 100);
+  }
 }
 
 function limparEstadoBotoes() {
@@ -152,60 +149,14 @@ function limparEstadoBotoes() {
   });
 }
 
-
-//Função que retira propriedade .hide de partes do boneco
-function hangMan(){
-    // Percorre todos os elementos dentro de $bodyBox
-    $bodyBox.forEach(elemento => {
-      const elementoComClasseHide = elemento.querySelector(".hide");
-      // Se existe um elemento filho com a classe "hide"
-      if (elementoComClasseHide) {
-        // Remove a classe "hide" do elemento filho
-        elementoComClasseHide.classList.remove("hide");
-      }
-    });
-}
-
-function substituirUnderscorePorLetra(letra) {
-  // Encontra a resposta correta da pergunta atual
-  const respostaCorreta = questions[currentQuestionIndex].answer;
-
-  // Obtém a palavra correta e converte para minúsculas
-  const palavraCorreta = respostaCorreta.toLowerCase();
-
-  //Encontra todas as ocorrências da letra na palavra correta
-
-  let indices = [];
-
-  for(let i = 0; i < palavraCorreta.length; i++){
-    if(palavraCorreta[i] === letra.toLowerCase()){
-      indices.push(i);
-    }
+function hangMan() {
+  const bodyParts = document.querySelector('.body-box .hide');
+  if (bodyParts) {
+    bodyParts.classList.remove('hide');
   }
-
-  //Substitui os underscores nas posições correspondentes pelas letras
-
-  for(let i = 0; i < indices.length; i++){
-    const posicaoLetra = indices[i];
-
-    underscoreString = underscoreString.substr(0, posicaoLetra * 2) + letra + underscoreString.substr(posicaoLetra * 2 + 1);
-
-  }
-
-  //Exibe a string atualizada com as letras na div
-  $answerForQuestion.textContent = underscoreString;
-
 }
-
-
-function recomecarGame(){
-  window.location.href = "index.html";
-}
-
-
 
 function proximoJogo() {
-
   //Verificado se o boneco não contém a classe hide para adicionar novamente
   $bodyBox.forEach(elemento => {
     const elementosFilhos = elemento.children;
@@ -219,13 +170,11 @@ function proximoJogo() {
 
 limparEstadoBotoes();
 
-
 $letterUsed.innerHTML = "";
 underscoreString = '';
-currentQuestionIndex++;
+currentQuestionIndex = Math.floor(Math.random() * questions.length);
 
 displayQuestion();
-
 
 }
 
@@ -306,21 +255,24 @@ displayQuestion();
 
 
 const questions = [
-    {
-      question: "Quem é o presidente do Brasil em 2024?",
-      answer: "Lula"
-    },
-    {
-      question: "Qual é o nome completo do personagem principal em Breaking Bad?",
-      answer: "Walter White"
-        
-    },
-    {
-      question: "Quem é o criador da série Succession?",
-      answer: "Jesse Armstrong"
-    },
-    {
-      question: "Qual é o nome do mundo alternativo retratado em Stranger Things?",
-      answers: "The Upside Down"
-    }
-  ];
+  {
+    question: "Qual é o maior planeta do Sistema Solar?",
+    answer: "Júpiter"
+  },
+  {
+    question: "Qual é o nome da montanha mais alta do mundo?",
+    answer: "Everest"
+  },
+  {
+    question: "Qual é o elemento químico mais abundante no universo?",
+    answer: "Hidrogênio"
+  },
+  {
+    question: "Qual é a capital da França?",
+    answer: "Paris"
+  },
+  {
+    question: "Qual é a maior ilha do mundo?",
+    answer: "Groenlândia"
+  }
+];
