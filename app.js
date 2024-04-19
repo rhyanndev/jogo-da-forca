@@ -9,8 +9,10 @@ const $playersName = document.querySelector(".players-name");
 
 const $containerLeft = document.querySelector(".container-side-left");
 const $containerRight = document.querySelector(".container-side-right");
+
 const $keyBoardContent = document.querySelector(".container-keyboard");
 const $keyBoardLetters = document.querySelectorAll('.key');
+
 const $answerForQuestion = document.querySelector('.answer');
 const $letterUsed = document.querySelector(".letras-usadas");
 const $bodyBox = document.querySelectorAll(".body-box");
@@ -20,7 +22,7 @@ let letrasUtilizadas = [];
 
 $startGameButton.addEventListener("click", startGame);
 
-let currentQuestionIndex = 0;
+let currentQuestionIndex = 1;
 
 
 function startGame (){
@@ -53,39 +55,21 @@ letrasUtilizadas = []; // Limpa a lista de letras utilizadas no início de cada 
 $questionText.textContent = questions[currentQuestionIndex].question;
 
 
-// Restaura a cor original e habilita todos os botões no início de cada rodada
-$keyBoardLetters.forEach(button => {
-  button.disabled = false;
-  button.style.backgroundColor = ''; // Limpa a cor de fundo
-});
+
+let totalLetras = 0;
+
+totalLetras = questions[currentQuestionIndex].answer.replace(/ /g, '').length;
+
+console.log("Total de letras nesta resposta:", totalLetras);
 
 
-
-function contarLetras(objeto){
-
-  let totalLetras = 0;
-
-    objeto.answers.forEach(answers => {
-      if (answers.correct){
-        totalLetras += answers.text.replace(/ /g, '').length; // Ignorar espaços na contagem
-      }
-    });
-
-  return totalLetras;
-
-}
-const totalLetras = contarLetras(questions[currentQuestionIndex]);
-console.log("Total de letras nessa resposta:", totalLetras);
-
-
-
-const respostaCorreta = questions[currentQuestionIndex].answers.find(answer => answer.correct);
+const respostaCorreta = questions[currentQuestionIndex].answer;
 
 underscoreString = '';
 
-for (let index = 0; index < respostaCorreta.text.length; index++) {
+for (let index = 0; index < respostaCorreta.length; index++) {
 
-  if(respostaCorreta.text[index] === ' '){
+  if(respostaCorreta[index] === ' '){
     underscoreString += 'ㅤ'; //Adiciona espaço
   }
   else
@@ -109,11 +93,10 @@ function verificaLetra(){
 
     button.addEventListener('click', () => {
       const letter = button.textContent;
-      const question = questions[currentQuestionIndex];
-
-      const isCorrect = question.answers.some(answers => {
-        return answers.correct && answers.text.toLowerCase().includes(letter.toLowerCase());
-      });
+      const answer = questions[currentQuestionIndex].answer;
+      
+      const isCorrect = answer.toLowerCase().includes(letter.toLowerCase());
+      
 
 
       if(isCorrect){
@@ -128,10 +111,13 @@ function verificaLetra(){
         hangMan();
 
         const todosRemovidos = Array.from($bodyBox).every(elemento => !elemento.querySelector(".hide"));
+       
 
         if (todosRemovidos) {
           // Mostra uma mensagem para o usuário
+
           const resposta = confirm("Você perdeu! Deseja recomeçar ou ir para o próximo jogo?");
+
           if (resposta) {
             // Recomeça o jogo
             recomecarGame();
@@ -145,22 +131,27 @@ function verificaLetra(){
         }
       }
 
-
       if (!letrasUtilizadas.includes(letter)) {
         letrasUtilizadas.push(letter);
 
         $letterUsed.innerHTML = letrasUtilizadas.join(); // Atualiza a lista de letras utilizadas
 
-        button.style.backgroundColor = 'red';
+        button.style.backgroundColor = 'blue';
         button.disabled = true;
-    }
-
-  
+    }  
 
   });
 });
 
 }
+
+function limparEstadoBotoes() {
+  $keyBoardLetters.forEach(button => {
+    button.disabled = false;
+    button.style.backgroundColor = ''; // Limpa a cor de fundo
+  });
+}
+
 
 //Função que retira propriedade .hide de partes do boneco
 function hangMan(){
@@ -177,10 +168,10 @@ function hangMan(){
 
 function substituirUnderscorePorLetra(letra) {
   // Encontra a resposta correta da pergunta atual
-  const respostaCorreta = questions[currentQuestionIndex].answers.find(answer => answer.correct);
+  const respostaCorreta = questions[currentQuestionIndex].answer;
 
   // Obtém a palavra correta e converte para minúsculas
-  const palavraCorreta = respostaCorreta.text.toLowerCase();
+  const palavraCorreta = respostaCorreta.toLowerCase();
 
   //Encontra todas as ocorrências da letra na palavra correta
 
@@ -225,6 +216,8 @@ function proximoJogo() {
         }
     }
 });
+
+limparEstadoBotoes();
 
 
 $letterUsed.innerHTML = "";
@@ -314,39 +307,20 @@ displayQuestion();
 
 const questions = [
     {
-      question: "Quem é o presidente do Brasil em 2024??",
-      answers: [
-        { text: "Lula", correct: true },
-        { text: "Bolsonaro", correct: false },
-        { text: "Dilma", correct: false },
-        { text: "Michel Temer", correct: false }
-      ]
+      question: "Quem é o presidente do Brasil em 2024?",
+      answer: "Lula"
     },
     {
       question: "Qual é o nome completo do personagem principal em Breaking Bad?",
-      answers: [
-        { text: "Walter White", correct: true },
-        { text: "Jesse Pinkman", correct: false },
-        { text: "Saul Goodman", correct: false },
-        { text: "Gustavo Fring", correct: false }
-      ]
+      answer: "Walter White"
+        
     },
     {
-      "question": "Quem é o criador da série Succession?",
-      "answers": [
-        { "text": "Jesse Armstrong", "correct": true },
-        { "text": "David Benioff", "correct": false },
-        { "text": "Dan Weiss", "correct": false },
-        { "text": "Aaron Sorkin", "correct": false }
-      ]
+      question: "Quem é o criador da série Succession?",
+      answer: "Jesse Armstrong"
     },
     {
-      "question": "Qual é o nome do mundo alternativo retratado em Stranger Things?",
-      "answers": [
-        { "text": "The Upside Down", "correct": true },
-        { "text": "The Other Side", "correct": false },
-        { "text": "The Dark Place", "correct": false },
-        { "text": "The Shadow Realm", "correct": false }
-      ]
+      question: "Qual é o nome do mundo alternativo retratado em Stranger Things?",
+      answers: "The Upside Down"
     }
   ];
