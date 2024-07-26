@@ -1,96 +1,104 @@
 const $questionText = document.querySelector(".question");
 const $startGameButton = document.querySelector(".start-quiz");
-
 const $controlsContainer = document.querySelector(".controls-container");
-
 const $userName = document.getElementById("user");
 const $userField = document.querySelector(".insert-name-user");
 const $playersName = document.querySelector(".players-name");
-
 const $containerLeft = document.querySelector(".container-side-left");
 const $containerRight = document.querySelector(".container-side-right");
-
-const $keyBoardContent = document.querySelector(".container-keyboard");
 const $keyBoardLetters = document.querySelectorAll('.key');
-
 const $answerForQuestion = document.querySelector('.answer');
 const $letterUsed = document.querySelector(".letras-usadas");
 const $bodyBox = document.querySelectorAll(".body-box");
 
-
-let underscoreString = '';
 let letrasUtilizadas = [];
 
+import { questions } from "./questions.js";
 
 $startGameButton.addEventListener("click", startGame);
 
 let currentQuestionIndex = 0;
 
-
-function startGame (){
-
-
-  if($userName.value.trim() === ""){
-    alert('Preencha seu nome!');
+function startGame(){
+    if(isUserNameEmpty()) {
+      alert('Preencha seu nome!');
+    }
+    else{
+      initializeGame();
+    }
 }
 
-  else{
-
-    const playUser = $userName.value;
-    $startGameButton.classList.add("hide");
-    $controlsContainer.classList.add("hide");
-    $userField.classList.add("hide");
-    $containerLeft.classList.remove("hide");
-    $containerRight.classList.remove("hide");
-    $playersName.textContent = `Jogador: ${playUser.toUpperCase()}`
-
-    displayQuestion();
+function isUserNameEmpty() {
+  return $userName.value.trim() === "";
 }
 
+function initializeGame(){
+  const playUser = getUserName();
+  hideElements();
+  showGameContainers();
+  setPlayerName(playUser);
+  displayQuestion();
+}
+
+function getUserName() {
+  return $userName.value;
+}
+
+function hideElements() {
+  $startGameButton.classList.add("hide");
+  $controlsContainer.classList.add("hide");
+  $userField.classList.add("hide");
+}
+
+function showGameContainers() {
+  $containerLeft.classList.remove("hide");
+  $containerRight.classList.remove("hide");
+}
+
+function setPlayerName(playUser) {
+  $playersName.textContent = `Jogador: ${playUser.toUpperCase()}`;
 }
 
 function displayQuestion() {
 
-letrasUtilizadas = []; // Limpa a lista de letras utilizadas no início de cada rodada
+  letrasUtilizadas = []; // Limpa a lista de letras utilizadas no início de cada rodada
 
-// Exibe o texto da pergunta atual
-$questionText.textContent = questions[currentQuestionIndex].question;
+  // Exibe o texto da pergunta atual
+  $questionText.textContent = questions[currentQuestionIndex].question;
 
-let totalLetras = 0;
-totalLetras = questions[currentQuestionIndex].answer.replace(/ /g, '').length;
-console.log("Total de letras nesta resposta:", totalLetras);
-
-
-const respostaCorreta = questions[currentQuestionIndex].answer;
+  let totalLetras = 0;
+  totalLetras = questions[currentQuestionIndex].answer.replace(/ /g, '').length;
 
 
-//Pegar a letra de cada answer e colocar span com o _ e  mostrar na div answerForQuestion
+  const respostaCorreta = questions[currentQuestionIndex].answer;
 
-$answerForQuestion.textContent = "";
 
-const respostaCorretaSemAcento = respostaCorreta.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  //Pegar a letra de cada answer e colocar span com o _ e  mostrar na div answerForQuestion
 
-Array.from(respostaCorretaSemAcento).forEach((letter) =>
-{
-  const span = document.createElement("span");
+  $answerForQuestion.textContent = "";
 
-  span.textContent = "_";
+  const respostaCorretaSemAcento = respostaCorreta.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-  span.setAttribute("answer", letter.toUpperCase());
+  Array.from(respostaCorretaSemAcento).forEach((letter) => {
+    const span = document.createElement("span");
 
-  $answerForQuestion.appendChild(span);
+    span.textContent = "_";
 
-  span.style.marginRight = '5px';
+    span.setAttribute("answer", letter.toUpperCase());
 
-});
+    $answerForQuestion.appendChild(span);
 
-verificaLetra();
+    span.style.marginRight = '5px';
+
+  });
+
+  verificaLetra();
 
 }
 
 function verificaLetra() {
   $keyBoardLetters.forEach(button => {
-    button.onclick = function() {
+    button.onclick = function () {
       const letter = this.textContent; // 'this' refere-se ao botão clicado
 
       this.style.backgroundColor = 'red';
@@ -100,7 +108,6 @@ function verificaLetra() {
 
       if (!arr.length) {
         wrongAnswer();
-        console.log('essa letra não contém na palavra!');
       }
 
       arr.forEach((e) => {
@@ -129,10 +136,7 @@ function verificaLetra() {
 function wrongAnswer() {
 
   hangMan();
-
-  console.log('Chamada da função wrongAnswer()');
-
- const todosRemovidos = Array.from($bodyBox).every(elemento => !elemento.querySelector(".hide"));
+  const todosRemovidos = Array.from($bodyBox).every(elemento => !elemento.querySelector(".hide"));
 
   if (todosRemovidos) {
     setTimeout(() => {
@@ -161,118 +165,19 @@ function proximoJogo() {
   $bodyBox.forEach(elemento => {
     const elementosFilhos = elemento.children;
     for (let i = 0; i < elementosFilhos.length; i++) {
-        const filho = elementosFilhos[i];
-        if (!filho.classList.contains("hide")) {
-            filho.classList.add("hide");
-        }
+      const filho = elementosFilhos[i];
+      if (!filho.classList.contains("hide")) {
+        filho.classList.add("hide");
+      }
     }
-});
+  });
 
-limparEstadoBotoes();
+  limparEstadoBotoes();
 
-$letterUsed.innerHTML = "";
-underscoreString = '';
-currentQuestionIndex = Math.floor(Math.random() * questions.length);
+  $letterUsed.innerHTML = "";
+  underscoreString = '';
+  currentQuestionIndex = Math.floor(Math.random() * questions.length);
 
-displayQuestion();
+  displayQuestion();
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const questions = [
-  {
-    question: "Qual é o maior planeta do Sistema Solar?",
-    answer: "Júpiter"
-  },
-  {
-    question: "Qual é o nome da montanha mais alta do mundo?",
-    answer: "Everest"
-  },
-  {
-    question: "Qual é o elemento químico mais abundante no universo?",
-    answer: "Hidrogênio"
-  },
-  {
-    question: "Qual é a capital da França?",
-    answer: "Paris"
-  },
-  {
-    question: "Qual é a maior ilha do mundo?",
-    answer: "Groenlândia"
-  }
-];
