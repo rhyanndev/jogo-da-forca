@@ -12,6 +12,7 @@ const $letterUsed = document.querySelector(".letras-usadas");
 const $bodyBox = document.querySelectorAll(".body-box");
 
 let letrasUtilizadas = [];
+let underscoreString = '';
 
 import { questions } from "./questions.js";
 
