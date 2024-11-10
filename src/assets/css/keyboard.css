@@ -1,0 +1,34 @@
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 10px;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+button {
+  padding: 15px 20px;
+  font-size: 20px;
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:active {
+  background-color: #d0d0d0;
+}
+
+@media (max-width: 768px) {
+  .keyboard {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .keyboard {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

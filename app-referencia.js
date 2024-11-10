@@ -14,7 +14,7 @@ const $bodyBox = document.querySelectorAll(".body-box");
 let letrasUtilizadas = [];
 let underscoreString = '';
 
-import { questions } from "./questions.js";
+import { questions } from "./questions-referencia.js";
 
 $startGameButton.addEventListener("click", startGame);
 
