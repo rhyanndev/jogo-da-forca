@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
-import './assets/css/keyboard.css';
+import '@/assets/css/keyboard.css';
 
 function Keyboard() {
   useEffect(() => {
